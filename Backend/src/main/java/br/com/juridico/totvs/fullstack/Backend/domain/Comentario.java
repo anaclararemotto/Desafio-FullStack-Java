@@ -22,5 +22,9 @@ public class Comentario {
     //data e hora do comentario
     private LocalDateTime dataCriacao;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ponto_turistico_id", nullable = false)
+    private PontoTuristico pontoTuristico;
+
 
 }
