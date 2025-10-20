@@ -107,14 +107,4 @@ public class PontoTuristico {
     public void setPais(Pais pais) {
         this.pais = pais;
     }
-
-
-
-
-
-
-
-
-
-
 }
