@@ -1,7 +1,9 @@
 package br.com.juridico.totvs.fullstack.Backend.service;
 
-import br.com.juridico.totvs.fullstack.Backend.domain.PontoTuristico;
+import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoRequest;
 import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoResponse;
+
+import java.util.List;
 
 public interface PontoTuristicoService {
     //Cria e atualiza um ponto turistico

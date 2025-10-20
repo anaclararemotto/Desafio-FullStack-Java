@@ -1,5 +1,6 @@
 package br.com.juridico.totvs.fullstack.Backend.domain;
 
+import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoRequest;
 import jakarta.persistence.*;
 
 import javax.persistence.*;
