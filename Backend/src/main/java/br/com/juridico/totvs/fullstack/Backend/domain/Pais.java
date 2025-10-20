@@ -2,8 +2,12 @@ package br.com.juridico.totvs.fullstack.Backend.domain;
 
 import br.com.juridico.totvs.fullstack.Backend.service.dto.PaisDTO;
 
-public class Pais {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Pais {
+    @Id
     private Long id;
     private String nome;
     private String sigla;
