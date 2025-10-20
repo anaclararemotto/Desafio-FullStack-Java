@@ -26,5 +26,25 @@ public class Comentario {
     @JoinColumn(name = "ponto_turistico_id", nullable = false)
     private PontoTuristico pontoTuristico;
 
+    //Contrutir padrao
+    public Comentario() {}
+
+    //Construtor comppleto
+    public  Comentario (Long id, String autor, String textoComentario, LocalDateTime dataCriacao, PontoTuristico pontoTuristico) {
+        this.id = id;
+        this.autor = autor;
+        this.textoComentario = textoComentario;
+        this.dataCriacao = dataCriacao;
+        this.pontoTuristico = pontoTuristico;
+    }
+
+    //preenche a data da criação automaticamente antes de salvar no bd
+    @PrePersist
+    public void prePersist() {
+        if (this.dataCriacao == null) {
+            this.dataCriacao = LocalDateTime.now();
+        }
+    }
+
 
 }
