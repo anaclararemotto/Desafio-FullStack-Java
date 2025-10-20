@@ -56,7 +56,7 @@ public class PontoTuristico {
         this.id = request.getId();
         this.nome = request.getNome();
         this.cidade = request.getCidade();
-        this.melhorEstacao = request.getMelhosEstacao();
+        this.melhorEstacao = request.getMelhorEstacao();
         this.resumo = request.getResumo();
     }
 
