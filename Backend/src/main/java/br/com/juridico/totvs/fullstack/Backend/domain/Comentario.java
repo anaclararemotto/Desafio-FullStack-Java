@@ -45,6 +45,44 @@ public class Comentario {
             this.dataCriacao = LocalDateTime.now();
         }
     }
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public String getTextoComentario() {
+        return textoComentario;
+    }
+
+    public void setTextoComentario(String textoComentario) {
+        this.textoComentario = textoComentario;
+    }
+
+    public LocalDateTime getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(LocalDateTime dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public PontoTuristico getPontoTuristico() {
+        return pontoTuristico;
+    }
+
+    public void setPontoTuristico(PontoTuristico pontoTuristico) {
+        this.pontoTuristico = pontoTuristico;
+    }
 
 }
