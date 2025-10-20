@@ -37,6 +37,29 @@ public class PontoTuristico {
     @JoinColumn(name = "pais_id", nullable = false)
     private Pais pais;
 
+    //Construtor padrão obrigatorio para instanciar classes
+    public PontoTuristico() {}
+
+    //Contrutor para criação da entidade
+    public PontoTuristico (Long id, String nome, String cidade, MelhorEstacao melhorEstacao, String resumo, Pais pais) {
+        this.id = id;
+        this.nome = nome;
+        this.cidade = cidade;
+        this.melhorEstacao = melhorEstacao;
+        this.resumo = resumo;
+        this.pais = pais;
+    }
+
+    //Contrutor que mapeia DTO da req
+    // O obj pais é populado na camasda Service
+    public  PontoTuristico(PontoTuristicoRequest request) {
+        this.id = request.getId();
+        this.nome = request.getNome();
+        this.cidade = request.getCidade();
+        this.melhorEstacao = request.getMelhosEstacao();
+        this.resumo = request.getResumo();
+    }
+
 
 
 
