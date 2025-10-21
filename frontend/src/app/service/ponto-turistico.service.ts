@@ -14,6 +14,14 @@ export interface PontoTuristico {
   paisNome: string;
 }
 
+export interface Comentario {
+  id: number;
+  autor: string;
+  textoComentario: string;
+  dataCriacaoFormatada: string;
+  pontoTuristicoId: number;
+}
+
 //estrutura a ser enviada ao baxkend
 export interface PontoTuristicoRequest {
   id?: number;
@@ -22,6 +30,12 @@ export interface PontoTuristicoRequest {
   resumo: string;
   melhorEstacao: string;
   paisId: number;
+}
+
+export interface ComentarioRequest {
+  autor: string;
+  texttoComentario: string;
+  pontoTuristicoId: number;
 }
 
 @Injectable({
