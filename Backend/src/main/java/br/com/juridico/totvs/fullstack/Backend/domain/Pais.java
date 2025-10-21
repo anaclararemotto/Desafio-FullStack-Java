@@ -2,12 +2,13 @@ package br.com.juridico.totvs.fullstack.Backend.domain;
 
 import br.com.juridico.totvs.fullstack.Backend.service.dto.PaisDTO;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "pais")
 public class Pais {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String sigla;

@@ -11,10 +11,10 @@ public interface ComentarioRepository  extends JpaRepository<Comentario, Long>{
     /**
      * Buscar todos os comentarios que pertencem a um ponto turistico
      *
-     * @param id do ponto turistico
+     * @param pontoTuristicoId do ponto turistico
      * @return lista de comentarios ordenadoe pela data de criação
      */
-    List<Comentario> findByPontoTuristicoIdOrderBydataCriacaoDesc(Long pontoTuristicoId);
+    List<Comentario> findByPontoTuristicoIdOrderByDataCriacaoDesc(Long pontoTuristicoId);
 
 
 }

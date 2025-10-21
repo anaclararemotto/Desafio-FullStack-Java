@@ -1,5 +1,6 @@
 package br.com.juridico.totvs.fullstack.Backend.service;
 
+
 import br.com.juridico.totvs.fullstack.Backend.domain.Pais;
 import br.com.juridico.totvs.fullstack.Backend.domain.PontoTuristico;
 import br.com.juridico.totvs.fullstack.Backend.repository.PaisRepository;

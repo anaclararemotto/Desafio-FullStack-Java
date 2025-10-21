@@ -1,5 +1,7 @@
 package br.com.juridico.totvs.fullstack.Backend.service.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class ComentarioRequest {
     //o ID não sera necessario pois a criação sera sempre uma nova entrada
     @NotBlank(message = "O nome do autor é obrigatório")
@@ -36,7 +38,7 @@ public class ComentarioRequest {
     }
 
 
-    public String getPontoTuristicoId() {
+    public Long getPontoTuristicoId() {
         return pontoTuristicoId;
     }
 

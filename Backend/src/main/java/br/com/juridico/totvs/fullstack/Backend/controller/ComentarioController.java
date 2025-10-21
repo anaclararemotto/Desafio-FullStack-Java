@@ -1,4 +1,5 @@
-package br.com.juridico.totvs.fullstack.Backend.controller;]
+package br.com.juridico.totvs.fullstack.Backend.controller;
+
 
 import br.com.juridico.totvs.fullstack.Backend.service.ComentarioService;
 import br.com.juridico.totvs.fullstack.Backend.service.dto.ComentarioRequest;
@@ -24,7 +25,7 @@ public class ComentarioController {
 
     //endpoint criar comentario POST /api/pontos-turisticos/{pontoTuristicoId}/comentarios
     @PostMapping
-    public ResponseEntity<ComentarioResponse> criar(@PathVariable Long pontoTuristicoId, @valid @RequestBody ComentarioRequest request) {
+    public ResponseEntity<ComentarioResponse> criar(@PathVariable Long pontoTuristicoId, @Valid @RequestBody ComentarioRequest request) {
         //Garante que o id d URL seja o id usado para criar o relacionamento
         request.setPontoTuristicoId(pontoTuristicoId);
 
