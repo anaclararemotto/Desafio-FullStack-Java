@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { PoPageAction, PoTableColumn } from '@po-ui/ng-components';
 import {
   PontoTuristico,
   PontoTuristicoService,
 } from '../service/ponto-turistico.service';
-import { PoPageAction, PoTableColumn } from '@po-ui/ng-components';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pontos-turisticos',
@@ -28,6 +28,7 @@ export class PontosTuristicosComponent implements OnInit {
   ngOnInit(): void {
     this.setupAcoes();
     this.setupColunas();
+    this.carregarPontosTuristicos();
   }
 
   //configura as açoes do cabeçalho da pag
@@ -42,6 +43,7 @@ export class PontosTuristicosComponent implements OnInit {
     ];
   }
 
+ //configura as colunas da pag
   private setupColunas() {
     this.colunas = [
       { property: 'nome', label: 'Ponto Turistico', type: 'string' },
@@ -75,6 +77,19 @@ export class PontosTuristicosComponent implements OnInit {
         ]
       }
     ];
+  }
+  //busca os pontos turisticos no back
+  private carregarPontosTuristicos() {
+    this.pontoTuristicoService.getPontosTuristicos().subscribe({
+      next: (data) => {
+        //atribui os dads recebidos do back a lista da po-table
+        this.pontosTuristicos = data;
+      },
+      error: (err) => {
+        //log de erro
+        console.error('Erro ao carregar pontos turisticos:', err);
+      }
+    })
   }
 
   visualizarDetalhes(item: PontoTuristico) {
