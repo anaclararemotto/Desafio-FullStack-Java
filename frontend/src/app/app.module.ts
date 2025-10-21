@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { PoModule } from '@po-ui/ng-components';
+import { PoTemplatesModule } from '@po-ui/ng-templates';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PoModule } from '@po-ui/ng-components';
-import { RouterModule } from '@angular/router';
-import { PaisesComponent } from './paises/paises.component';
-import { CadastroPaisesComponent } from './paises/cadastro-paises/cadastro-paises.component';
-import { PontosTuristicosComponent } from './pontos-turisticos/pontos-turisticos.component';
-import { CadastroPontosTuristicosComponent } from './pontos-turisticos/cadastro-pontos-turisticos/cadastro-pontos-turisticos.component';
-import { ComentariosComponent } from './comentarios/comentarios.component';
 import { CadastroComentarioComponent } from './comentarios/cadastro-comentario/cadastro-comentario.component';
-import { PoTemplatesModule } from '@po-ui/ng-templates';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ComentariosComponent } from './comentarios/comentarios.component';
+import { CadastroPaisesComponent } from './paises/cadastro-paises/cadastro-paises.component';
+import { PaisesComponent } from './paises/paises.component';
+import { CadastroPontosTuristicosComponent } from './pontos-turisticos/cadastro-pontos-turisticos/cadastro-pontos-turisticos.component';
+import { PontosTuristicosComponent } from './pontos-turisticos/pontos-turisticos.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     BrowserModule,
+    //para o angular se comunicar com o java
+    HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
     PoModule,
