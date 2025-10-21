@@ -1,4 +1,11 @@
-<po-page-detail 
-    p-title="Novo Ponto Turistico">
-
-</po-page-detail>
+<po-page-default [p-title]="title" [p-actions]="acoes">
+  <form [formGroup]="pontoForm" autocomplete="off">
+    <div class="po-row">
+      <po-input class="po-md-6" formControlName="nome" p-label="Nome do ponto turistico"></po-input>
+      <po-input class="po-md-6" formControlName="cidade" p-label="Cidade"></po-input>
+      <po-select class="po-md-6" formControlName="paisId" p-label="País" [p-options]="paisesOptions"></po-select>
+      <po-select class="po-md-6" formControlName="melhorEstacao" p-label="Melhor Estação" [p-options]="estacoesOptions"></po-select>
+      <po-textarea class="po-md-12" formControlName="resumo" p-label="Resumo do ponto turistico" ></po-textarea>
+    </div>
+  </form>
+</po-page-default>

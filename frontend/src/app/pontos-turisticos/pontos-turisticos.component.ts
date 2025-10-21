@@ -37,7 +37,7 @@ export class PontosTuristicosComponent implements OnInit {
       {
         label: 'Novo ponto turistico',
         //navega para o formulario
-        action: () => this.router.navigate(['/pontos-turisticos/new']),
+        action: () => this.router.navigate(['/ponto-turistico/cadastro']),
         icon: 'po-icon-plus',
       },
     ];
