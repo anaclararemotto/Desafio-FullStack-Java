@@ -51,6 +51,8 @@ export class CadastroPontosTuristicosComponent implements OnInit {
 
   ngOnInit(): void {
     this.setupForm();
+    this.carregarPaises();
+    this.checarModoEdicao();
   }
 
   //configura form group r form controld, aplicando as validaçoes.
@@ -76,6 +78,30 @@ export class CadastroPontosTuristicosComponent implements OnInit {
     ]
   }
 
+  //Busca a lista de paises no back e converte para o formato do po-select
+  private carregarPaises() {
+    this.paisService.getPaisesAsOption().subscribe(options => {
+      this.paisesOptions = options;
+    })
+  }
+
+  //verifica url para entrar no modo de edição
+  private checarModoEdicao() {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      this.isEdit = true;
+      this.title = 'Editar Ponto Turistico';
+
+      this.pontoTuristicoService.getPontoTuristico(+id).subscribe(ponto => {
+        //puxa os dados do form pelo back
+        this.pontoForm.patchValue({
+          ...ponto,
+          paisId: ponto.paisId
+        });
+      });
+    }
+  }
+
   salvar() {
     if (this.pontoForm.invalid) {
       //notifica o user sobre a falha na validacao do front
@@ -96,7 +122,7 @@ export class CadastroPontosTuristicosComponent implements OnInit {
         //notificação de erro com msg do back
         this.poNofitication.error(`Erro ao salvar: ${err.error.message || 'Falha na comunicação'}`);
       }
-    })
+    });
   }
 
 }
