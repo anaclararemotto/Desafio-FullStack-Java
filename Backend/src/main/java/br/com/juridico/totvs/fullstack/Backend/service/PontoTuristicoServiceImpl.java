@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,7 +49,11 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
     @Override
     @Transactional(readOnly = true)
     public List<PontoTuristicoResponse> buscarTodos() {
-        return pontoTuristicoRepository.findAll().stream().map(PontoTuristicoResponse::new).collect(Collectors.toList());
+        List<PontoTuristico> entidades = pontoTuristicoRepository.findAll();
+        entidades.forEach(p -> p.getPais().getNome());
+        return entidades.stream()
+                .map(PontoTuristicoResponse::new)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -67,4 +73,31 @@ public class PontoTuristicoServiceImpl implements PontoTuristicoService {
         }
         pontoTuristicoRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional
+    public PontoTuristicoResponse atualizar(Long id, @Valid PontoTuristicoRequest request) {
+        //buscar o ponto existente ou lança erro
+        PontoTuristico pontoExistente = pontoTuristicoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Ponto turístico não encontrado com ID " + id));
+
+        //atualiza os campos
+        pontoExistente.setNome(request.getNome());
+        pontoExistente.setCidade(request.getCidade());
+        pontoExistente.setResumo(request.getResumo());
+        pontoExistente.setMelhorEstacao(request.getMelhorEstacao());
+
+        //buisca o pais e associa
+        Pais pais = paisRepository.findById(request.getPaisId())
+                .orElseThrow(() -> new EntityNotFoundException("País não encontrado com ID " + request.getPaisId()));
+        pontoExistente.setPais(pais);
+
+        //salva a atualização
+        pontoTuristicoRepository.save(pontoExistente);
+
+        // retorna o DTO de reposta
+        return new PontoTuristicoResponse(pontoExistente);
+    }
+
+
 }

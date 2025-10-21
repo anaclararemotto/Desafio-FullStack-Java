@@ -3,6 +3,7 @@ package br.com.juridico.totvs.fullstack.Backend.controller;
 import br.com.juridico.totvs.fullstack.Backend.service.PontoTuristicoService;
 import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoRequest;
 import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 //Define como um controller rest
 @RestController
 //define o caminho base dos end points
@@ -25,11 +27,11 @@ public class PontoTuristicoController {
 
     //endpoint de criação POST /api/pontos-turisticos
     @PostMapping
-    public ResponseEntity<PontoTuristicoResponse> criar(@Valid @RequestBody PontoTuristicoRequest request){
+    public ResponseEntity<PontoTuristicoResponse> criarPonto(@Valid @RequestBody PontoTuristicoRequest request){
         //o valid garante que as anotacoes not blank no DTO serao verificadas
-        PontoTuristicoResponse novoPonto = pontoTuristicoService.criar(request);
-        //retorna 201
-        return new ResponseEntity<>(novoPonto, HttpStatus.CREATED);
+        PontoTuristicoResponse response = pontoTuristicoService.criar(request);
+        //retone 201
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     //endpoint de buscar todos GET /api/pontos-turisticos
@@ -53,7 +55,7 @@ public class PontoTuristicoController {
     public ResponseEntity<PontoTuristicoResponse> atualizar(@PathVariable Long id, @Valid @RequestBody PontoTuristicoRequest request){
         //garantindo que o id de atualização nao seja passado para o service
         request.setId(id);
-        PontoTuristicoResponse atualizado = pontoTuristicoService.criar(request);
+        PontoTuristicoResponse atualizado = pontoTuristicoService.atualizar(id, request);
         return ResponseEntity.ok(atualizado);
     }
 

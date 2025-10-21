@@ -3,6 +3,7 @@ package br.com.juridico.totvs.fullstack.Backend.service;
 import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoRequest;
 import br.com.juridico.totvs.fullstack.Backend.service.dto.PontoTuristicoResponse;
 
+import javax.validation.Valid;
 import java.util.List;
 
 public interface PontoTuristicoService {
@@ -17,4 +18,6 @@ public interface PontoTuristicoService {
 
     //dELETA POR ID
     void deletar(Long id);
+
+    PontoTuristicoResponse atualizar(Long id, @Valid PontoTuristicoRequest request);
 }

@@ -3,6 +3,7 @@ package br.com.juridico.totvs.fullstack.Backend.service.dto;
 import br.com.juridico.totvs.fullstack.Backend.domain.MelhorEstacao;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class PontoTuristicoRequest {
 
@@ -17,11 +18,11 @@ public class PontoTuristicoRequest {
     @NotBlank(message = "O resumo é obrigatório")
     private String resumo;
 
-    @NotBlank(message = "A melhor estação é obrigatória")
+    @NotNull(message = "A melhor estação é obrigatória.")
     private MelhorEstacao melhorEstacao;
 
     //para o service buscar a entity pais
-    @NotBlank(message = "O ID do país é obrigatório")
+    @NotNull(message = "O ID do país é obrigatório")
     private Long paisId;
 
     public PontoTuristicoRequest(){}
