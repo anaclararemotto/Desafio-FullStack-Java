@@ -5,6 +5,7 @@ import { CadastroPaisesComponent } from './paises/cadastro-paises/cadastro-paise
 import { PaisesComponent } from './paises/paises.component';
 import { CadastroPontosTuristicosComponent } from './pontos-turisticos/cadastro-pontos-turisticos/cadastro-pontos-turisticos.component';
 import { PontosTuristicosComponent } from './pontos-turisticos/pontos-turisticos.component';
+import { DetalhesPontoTuristicoComponent } from './pontos-turisticos/detalhes-ponto-turistico/detalhes-ponto-turistico.component';
 
 const routes: Routes = [
   {
@@ -73,7 +74,12 @@ const routes: Routes = [
                 ]
               }
             ]
-          }
+          },
+          {
+        path: 'detalhe/:idPontoTuristico',
+        pathMatch: 'full',
+        component: DetalhesPontoTuristicoComponent,
+      },
         ]
       }
     ]

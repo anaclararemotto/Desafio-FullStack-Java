@@ -1,0 +1,54 @@
+<po-page-default [p-title]="pontoTuristico?.nome" [p-actions]="acoes">
+
+  <form *ngIf="pontoTuristico" autocomplete="off">
+    
+    <div class="po-row">
+      <po-info class="po-md-6" p-label="Nome do ponto turistico" [p-value]="pontoTuristico.nome"></po-info>
+      <po-info class="po-md-6" p-label="Cidade" [p-value]="pontoTuristico.cidade"></po-info>
+      <po-info class="po-md-6" p-label="País" [p-value]="pontoTuristico.paisNome"></po-info>
+      <po-info class="po-md-6" p-label="Melhor Estação" [p-value]="pontoTuristico.melhorEstacao"></po-info>
+
+      <div class="po-md-12 po-mt-3">
+        <po-widget p-title="Resumo do ponto turistico">
+          <p>{{pontoTuristico.resumo}}</p>
+        </po-widget>
+      </div>
+    </div>
+
+    <po-widget p-title="Comentários" class="po-mt-4">
+
+      <div *ngIf="comentarios.length === 0" class="po-text-center po-py-4">
+        <!-- o poo-empty nao funcionou -->
+        <div class="po-p-3" style="border: 1px dashed #ccc; border-radius: 5px;">
+          <h3 class="po-text-color-primary po-icon-chat po-pl-1">Seja o Primeiro a Comentar!</h3>
+          <p>Ainda não há opiniões sobre este lugar. Deixe seu comentário abaixo.</p>
+        </div>
+      </div>
+
+      <div *ngIf="comentarios.length > 0" class="po-my-3">
+        <div *ngFor="let comentario of comentarios" class="po-my-2 po-p-2" style="border-bottom: 1px solid #eee;">
+          <p>
+            <strong>{{ comentario.autor }}</strong>
+            <small class="po-text-color-light">{{ comentario.dataCriacaoFormatada }}</small>
+            <p>{{ comentario.textoComentario }}</p>
+        </div>
+      </div>
+
+      <div class="po-mt-4 po-p-3" style="border-top: 1px solid #ddd">
+        <h4>Deixe seu comentário</h4>
+        <form [formGroup]="comentarioForm">
+          <div class="po-row">
+            <po-input class="po-md-4" formControlName="autor" p-label="Seu nome"></po-input>
+            <po-textarea class="po-md-8" formControlName="textoComentario" p-label="Comentário"></po-textarea>
+          </div>
+          <div class="po-row po-mt-2">
+            <po-button p-label="Publicar" p-icon="po-icon-send" [p-disabled]="comentarioForm.invalid" (p-click)="enviarComentario()">
+            </po-button>
+          </div>
+        </form>
+      </div>
+    </po-widget>
+
+  </form>
+
+</po-page-default>

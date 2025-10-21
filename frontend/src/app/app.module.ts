@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -14,6 +14,7 @@ import { CadastroPaisesComponent } from './paises/cadastro-paises/cadastro-paise
 import { PaisesComponent } from './paises/paises.component';
 import { CadastroPontosTuristicosComponent } from './pontos-turisticos/cadastro-pontos-turisticos/cadastro-pontos-turisticos.component';
 import { PontosTuristicosComponent } from './pontos-turisticos/pontos-turisticos.component';
+import { DetalhesPontoTuristicoComponent } from './pontos-turisticos/detalhes-ponto-turistico/detalhes-ponto-turistico.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { PontosTuristicosComponent } from './pontos-turisticos/pontos-turisticos
     PontosTuristicosComponent,
     CadastroPontosTuristicosComponent,
     ComentariosComponent,
-    CadastroComentarioComponent
+    CadastroComentarioComponent,
+    DetalhesPontoTuristicoComponent
   ],
   imports: [
     BrowserModule,
@@ -33,9 +35,10 @@ import { PontosTuristicosComponent } from './pontos-turisticos/pontos-turisticos
     ReactiveFormsModule,
     PoModule,
     RouterModule.forRoot([]),
-    PoTemplatesModule
+    PoTemplatesModule,
   ],
   providers: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

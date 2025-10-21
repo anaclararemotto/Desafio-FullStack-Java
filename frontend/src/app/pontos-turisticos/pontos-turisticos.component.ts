@@ -93,6 +93,6 @@ export class PontosTuristicosComponent implements OnInit {
   }
 
   visualizarDetalhes(item: PontoTuristico) {
-    this.router.navigate(['/pontos-turisticos/detail', item.id]);
+    this.router.navigate(['/ponto-turistico/detalhe', item.id]);
   }
 }
