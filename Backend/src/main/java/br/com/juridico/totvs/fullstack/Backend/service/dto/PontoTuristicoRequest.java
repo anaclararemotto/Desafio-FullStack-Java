@@ -1,6 +1,8 @@
 package br.com.juridico.totvs.fullstack.Backend.service.dto;
 
 import br.com.juridico.totvs.fullstack.Backend.domain.MelhorEstacao;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -66,11 +68,11 @@ public class PontoTuristicoRequest {
     public void setResumo(String resumo) {
         this.resumo = resumo;
     }
-
+    @JsonCreator
     public MelhorEstacao getMelhorEstacao() {
         return melhorEstacao;
     }
-
+    @JsonValue
     public void setMelhorEstacao(MelhorEstacao melhorEstacao) {
         this.melhorEstacao = melhorEstacao;
     }
