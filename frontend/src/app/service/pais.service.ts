@@ -8,7 +8,14 @@ export interface Pais {
   nome: string;
   sigla: string;
   continente: string;
-  dii: number;
+  ddi: number;
+}
+
+export interface PaisRequest {
+  nome:string;
+  sigla: string;
+  continente: string;
+  ddi: number
 }
 
 @Injectable({
@@ -17,7 +24,7 @@ export interface Pais {
 
 export class PaisService {
 
-  private apiUrl = 'http://localhost:8080/api/pais'
+  private apiUrl = 'http://localhost:8080/api/paises'
 
   constructor(private http: HttpClient) {}
 
@@ -25,6 +32,26 @@ export class PaisService {
   //get /api/paises
     getPaises(): Observable<Pais[]> {
       return this.http.get<Pais[]>(this.apiUrl);
+    }
+
+    // get pais por id
+    getPais(id: number): Observable<Pais> {
+      return this.http.get<Pais>(`${this.apiUrl}/${id}`);
+    }
+
+    //add pais
+    criarPais(pais: PaisRequest):Observable<Pais> {
+      return this.http.post<Pais>(this.apiUrl, pais)
+    }
+
+    //atualiza pais
+    atualizarPais(id:number, pais: PaisRequest): Observable<Pais> {
+      return this.http.put<Pais> (`${this.apiUrl}/${id}`, pais)
+    }
+
+    // deleta pais
+    deletarPais(id: number): Observable<any> {
+      return this.http.delete(`${this.apiUrl}/${id}`)
     }
 
     //converte lista de paises para o padrao po-select

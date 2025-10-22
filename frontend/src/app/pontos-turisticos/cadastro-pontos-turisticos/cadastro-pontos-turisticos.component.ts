@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PoComboOption, PoNotificationService, PoPageAction } from '@po-ui/ng-components';
+import { Observable } from 'rxjs';
 import { PaisService } from 'src/app/service/pais.service';
-import { PontoTuristicoRequest, PontoTuristicoService } from 'src/app/service/ponto-turistico.service';
+import { PontoTuristico, PontoTuristicoRequest, PontoTuristicoService } from 'src/app/service/ponto-turistico.service';
 
 @Component({
   selector: 'app-cadastro-pontos-turisticos',
@@ -112,17 +113,42 @@ export class CadastroPontosTuristicosComponent implements OnInit {
     //pega os valores do form e tipa com ponto turistico request
     const pontoRequest: PontoTuristicoRequest = this.pontoForm.value;
 
-    this.pontoTuristicoService.criarPontoTuristico(pontoRequest).subscribe({
+    // Variavel para armazenar POST ou PUT
+    let operacao$: Observable<PontoTuristico>;
+
+    // verifica se é uma edição
+    if (this.isEdit && pontoRequest.id) {
+      // se  edição chama o PUT
+      operacao$ = this.pontoTuristicoService.atualizarPontoTuristico(pontoRequest.id, pontoRequest);
+    } else {
+      // se for criação chama o POST
+      operacao$ = this.pontoTuristicoService.criarPontoTuristico(pontoRequest);
+    }
+
+    operacao$.subscribe({
       next: () => {
-        //Notificação de sucesso e redirecionamento para a listagem
+        //redirecionamento para a listagem
         this.poNofitication.success(`Ponto turistico ${this.isEdit ? 'atualizado' : 'criado'} com sucesso!`);
         this.router.navigate(['/ponto-turistico']);
       },
       error: (err) => {
+        console.error('Erro ao salvar ponto turístico:', err);
         //notificação de erro com msg do back
-        this.poNofitication.error(`Erro ao salvar: ${err.error.message || 'Falha na comunicação'}`);
+        this.poNofitication.error(`Erro ao salvar: ${err.error?.message || 'Falha na comunicação com o servidor'}`);
       }
     });
+
+    // this.pontoTuristicoService.criarPontoTuristico(pontoRequest).subscribe({
+    //   next: () => {
+    //     //Notificação de sucesso e redirecionamento para a listagem
+    //     this.poNofitication.success(`Ponto turistico ${this.isEdit ? 'atualizado' : 'criado'} com sucesso!`);
+    //     this.router.navigate(['/ponto-turistico']);
+    //   },
+    //   error: (err) => {
+    //     //notificação de erro com msg do back
+    //     this.poNofitication.error(`Erro ao salvar: ${err.error.message || 'Falha na comunicação'}`);
+    //   }
+    // });
   }
 
 }

@@ -34,7 +34,7 @@ export interface PontoTuristicoRequest {
 
 export interface ComentarioRequest {
   autor: string;
-  texttoComentario: string;
+  textoComentario: string;
   pontoTuristicoId: number;
 }
 
@@ -61,17 +61,17 @@ export class PontoTuristicoService{
 
   //cria novo ponto turistico
   criarPontoTuristico(ponto: PontoTuristicoRequest): Observable<PontoTuristico> {
-    return this.http.post<PontoTuristico>(this.apiUrl, ponto)
-  }
+  return this.http.post<PontoTuristico>(this.apiUrl, ponto);
+}
 
   //atualiza um existente
   atualizarPontoTuristico(id: number, ponto: PontoTuristicoRequest): Observable<PontoTuristico> {
-    return this.http.put<PontoTuristico>(`${this.apiUrl}/${id}`, ponto)
+    return this.http.put<PontoTuristico>(`${this.apiUrl}/${id}`, ponto);
   }
 
   //deleta um ponto turitico
   deletarPontoTuristico(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`)
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
 }

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PoNotificationService } from '@po-ui/ng-components';
-import { HttpService } from 'src/app/service/http-service.service';
-import { triggerFormValidators } from 'src/app/shared/util';
+import { Pais, PaisRequest, PaisService } from 'src/app/service/pais.service';
 
 @Component({
 	selector: 'app-cadastro-paises',
@@ -11,17 +10,20 @@ import { triggerFormValidators } from 'src/app/shared/util';
 	styleUrls: ['./cadastro-paises.component.css']
 })
 export class CadastroPaisesComponent implements OnInit {
-	idPais: string;
+	idPais!: number | null;
 	formPais: FormGroup;
 	title: string = "Novo cadastro de País"
-	constructor(private formBuilder: FormBuilder,
+
+	constructor(
+    private formBuilder: FormBuilder,
 		private poNotification: PoNotificationService,
 		private route: ActivatedRoute,
 		private router: Router,
-		private http: HttpService
-		) { 
+		private paisService: PaisService
+		) {
 
 		this.formPais = this.formBuilder.group({
+      id: [null],
 			nome: ['', Validators.compose([Validators.required])],
 			sigla: ['', Validators.compose([Validators.required])],
 			continente: ['', Validators.compose([Validators.required])],
@@ -30,7 +32,8 @@ export class CadastroPaisesComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.idPais = this.route.snapshot.paramMap.get('idPais');
+    const idParam = this.route.snapshot.paramMap.get('idPais');
+		this.idPais = idParam ? +idParam : null;
 		if (this.idPais !== null){
 			this.buscaDadosPais()
 			this.title = "Alteração do País"
@@ -38,53 +41,54 @@ export class CadastroPaisesComponent implements OnInit {
 	}
 
 	salvar(){
-		if (this.validarRegistro()){
-			if (this.idPais === null){
-				this.enviarPost()
-			} else {
-				this.enviarPut()
-			}
-		} else {
-			this.poNotification.error("Preencha todos os campos antes de salvar as alterações!")
+		if (this.formPais.invalid){
+			this.poNotification.error('Preencha todos os campos antes de salvar as alterações!')
+      return
 		}
+
+    //mapeia os val do form
+    const paisData: Pais = this.formPais.value;
+
+    if(this.idPais === null) {
+      this.enviarPost(paisData);
+    } else {
+      this.enviarPut(this.idPais, paisData)
+    }
 	}
 
 	voltar(){
-		this.router.navigate(['/pais'], { relativeTo: this.route })
+		this.router.navigate(['../'], { relativeTo: this.route })
 	}
 
-	validarRegistro(): boolean{
-		return this.formPais.valid;
-	}
-
-	enviarPost(){
-		this.http.post('pais',this.formPais.value).subscribe({
-			next:(resposta) => {
+	enviarPost(paisData: PaisRequest){
+		this.paisService.criarPais(paisData).subscribe({
+			next:() => {
 				this.poNotification.success("Registro criado com sucesso!");
 				this.voltar();
 			},
 			error:(erro) => {
-				this.poNotification.error(erro)
+				this.poNotification.error(erro.error?.message || 'Erro ao criar o registro')
 			},
 		})
 	}
 
-	enviarPut(){
-		this.http.put('pais/' + this.idPais,this.formPais.value).subscribe({
-			next:(resposta) => {
+	enviarPut(id: number, paisData: PaisRequest){
+		this.paisService.atualizarPais(id, paisData).subscribe({
+			next:() => {
 				this.poNotification.success("Registro atualizado com sucesso!");
 				this.voltar();
 			},
 			error:(erro) => {
-				this.poNotification.error(erro)
+				this.poNotification.error(erro.error?.message || 'Erro ao atualizar o registro')
 			},
 		})
 	}
 
 	buscaDadosPais(){
-		this.http.get('pais/' + this.idPais).subscribe({
-			next: (resposta)=>{
+		this.paisService.getPais(this.idPais!).subscribe({
+			next: (resposta: Pais)=>{
 				this.formPais.patchValue({
+          id: resposta.id,
 					nome: resposta.nome,
 					sigla: resposta.sigla,
 					continente: resposta.continente,
@@ -92,7 +96,8 @@ export class CadastroPaisesComponent implements OnInit {
 				})
 			},
 			error: (erro)=>{
-				this.poNotification.error(erro)
+				this.poNotification.error(erro.error?.message || 'Erro ao buscar dados do pais')
+        this.voltar();
 			}
 		})
 	}

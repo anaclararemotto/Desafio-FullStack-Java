@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PoNotificationService, PoTableAction, PoTableColumn } from '@po-ui/ng-components';
-import { map, tap } from 'rxjs';
-import { HttpService } from '../service/http-service.service';
+import { Pais, PaisService } from '../service/pais.service';
 
 @Component({
 	selector: 'app-paises',
@@ -10,12 +9,12 @@ import { HttpService } from '../service/http-service.service';
 	styleUrls: ['./paises.component.css']
 })
 export class PaisesComponent implements OnInit {
-	lsActions: Array<PoTableAction> = this.carregarActions();
-	lsColumns: Array<PoTableColumn> = this.carregarColunas();
-	lsPaises: Array<Pais> = []
+	lsActions: PoTableAction[] = this.carregarActions();
+	lsColumns: PoTableColumn[] = this.carregarColunas();
+	lsPaises: Pais[] = []
 
 	constructor(
-		private httpService: HttpService,
+		private paisService: PaisService,
 		private poNotification: PoNotificationService,
 		private router: Router,
 		private activatedRoute: ActivatedRoute) { }
@@ -24,12 +23,12 @@ export class PaisesComponent implements OnInit {
 		this.carregarPaises()
 	}
 
-	carregarActions(): Array<PoTableAction> {
+	carregarActions(): PoTableAction[] {
 		return [
 			{
 				label: 'Editar',
 				icon: 'po-icon-edit',
-				action: (row: Pais)=>{ this.navegarParaCadastro(row.id) }
+				action: (row: Pais)=>{ this.navegarParaCadastro(row.id.toString()) }
 			},
 			{
 				label: 'Excluir',
@@ -39,14 +38,14 @@ export class PaisesComponent implements OnInit {
 		]
 	}
 
-	deletarCadastro(id: string): void {
-		this.httpService.delete('pais/' + id).subscribe({
-			next: (response)=>{
+	deletarCadastro(id: number): void {
+		this.paisService.deletarPais(id).subscribe({
+			next: ()=>{
 				this.poNotification.success('Registro excluido com sucesso!');
 				this.carregarPaises();
 			},
 			error: (error)=>{
-				this.poNotification.error(error);
+				this.poNotification.error(error.error?.message || 'Erro ao excluir registro');
 			}
 		})
 	}
@@ -56,29 +55,21 @@ export class PaisesComponent implements OnInit {
 	}
 
 	carregarPaises(){
-		return this.httpService.get('pais').subscribe({
-			next: (resposta)=>{
-				let registros: Array<Pais> = []
-				resposta.forEach(item => {
-					let novoPais: Pais = {
-						id: item.id,
-						nome: item.nome,
-						sigla: item.sigla,
-						continente: item.continente,
-						codigoDdi: item.ddi
-					}
-					registros.push(novoPais);
-				});
+	 this.paisService.getPaises().subscribe({
+			next: (data)=>{
+				this.lsPaises = data;
+				},
+        error: (error) => {
+          console.error('Erro ao carregar paises: ', error);
+        }
+      })
+    }
 
-				this.lsPaises = [...registros]
-			}
-		})
-	}
 
 	carregarColunas(): Array<PoTableColumn>{
 		return [
 			{
-				property: 'codigoDdi',
+				property: 'ddi',
 				label: 'DDI'
 			},
 			{
@@ -97,10 +88,3 @@ export class PaisesComponent implements OnInit {
 	}
 }
 
-interface Pais{
-	id: string,
-	nome: string,
-	sigla: string,
-	continente: string,
-	codigoDdi: number
-}
